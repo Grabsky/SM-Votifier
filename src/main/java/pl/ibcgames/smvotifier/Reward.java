@@ -26,7 +26,7 @@ public class Reward implements CommandExecutor {
             }
 
             if (require_permission && !sender.hasPermission("smvotifier.nagroda")) {
-                sender.sendMessage(Utils.message("&cPotrzebujesz uprawnienia &asmvotifier.nagroda"));
+                sender.sendMessage(Utils.message("&8› &cBrak uprawnień."));
                 return;
             }
 
@@ -36,13 +36,12 @@ public class Reward implements CommandExecutor {
 
                 if (diff < 60) {
                     long remaining = 60 - diff;
-                    sender.sendMessage(Utils.message("&cTa komenda moze byc uzyta za " + remaining +"s"));
+                    sender.sendMessage(Utils.message("&8› &cSpróbuj ponownie za kilka sekund..."));
 
                     return;
                 }
             }
 
-            sender.sendMessage(Utils.message("&aSprawdzamy Twoj glos, prosze czekac..."));
             JSONObject res = Utils.sendRequest("https://serwery-minecraft.pl/api/server-by-key/" + token + "/get-vote/" + sender.getName());
             timeouts.put(sender.getName(), new Date());
             execute(res, sender);
@@ -64,11 +63,11 @@ public class Reward implements CommandExecutor {
         }
 
         if (res.containsKey("error")) {
-            sender.sendMessage(Utils.message(res.get("error").toString()));
+            sender.sendMessage("&8› &cNie udało się odebrać nagrody. Spróbuj ponownie później.");
         }
 
         if (!canClaimReward && !res.containsKey("error")) {
-            sender.sendMessage(Utils.message("&cNie udalo sie odebrac nagrody, sprobuj pozniej"));
+            sender.sendMessage(Utils.message("&8› &cNie masz żadnej nagrody do odebrania."));
 
             return;
         }

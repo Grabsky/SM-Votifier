@@ -16,7 +16,7 @@ public class PlaceholderAPIIntegration {
     public static void register() {
         if (!canLoad()) return;
 
-        Votifier.plugin.log("Znaleziono PlaceholderAPI, ladowanie zmiennych...");
+        Votifier.plugin.log("Znaleziono PlaceholderAPI, ładowanie zmiennych...");
         new SMExpansion().register();
     }
 }
