@@ -12,12 +12,11 @@ public class Reward implements CommandExecutor {
     String token = Votifier.plugin.getConfiguration().get().getString("identyfikator");
     boolean require_permission = Votifier.plugin.getConfiguration().get().getBoolean("wymagaj_uprawnien");
     List<String> list = Votifier.plugin.getConfiguration().get().getStringList("komendy");
-    String[] array = list.toArray(new String[0]);
     Map<String, Date> timeouts = new HashMap<>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        Runnable runnable = () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(Votifier.plugin, () -> {
             if (token == null || token.equalsIgnoreCase("tutaj_wpisz_identyfikator")) {
                 sender.sendMessage(Utils.message("§cBrak identyfikatora serwera w konfiguracji SM-Votifier"));
                 sender.sendMessage(Utils.message("§cWiecej informacji znajdziesz pod adresem:"));
@@ -41,15 +40,10 @@ public class Reward implements CommandExecutor {
                     return;
                 }
             }
-
             JSONObject res = Utils.sendRequest("https://serwery-minecraft.pl/api/server-by-key/" + token + "/get-vote/" + sender.getName());
             timeouts.put(sender.getName(), new Date());
             execute(res, sender);
-        };
-
-        Thread thread = new Thread(runnable);
-        thread.start();
-
+        });
         return true;
     }
 
