@@ -19,14 +19,14 @@ public class Reward implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Runnable runnable = () -> {
             if (token == null || token.equalsIgnoreCase("tutaj_wpisz_identyfikator")) {
-                sender.sendMessage(Utils.message("&cBrak identyfikatora serwera w konfiguracji SM-Votifier"));
-                sender.sendMessage(Utils.message("&cWiecej informacji znajdziesz pod adresem:"));
-                sender.sendMessage(Utils.message("&ahttps://serwery-minecraft.pl/konfiguracja-pluginu"));
+                sender.sendMessage(Utils.message("§cBrak identyfikatora serwera w konfiguracji SM-Votifier"));
+                sender.sendMessage(Utils.message("§cWiecej informacji znajdziesz pod adresem:"));
+                sender.sendMessage(Utils.message("§ahttps://serwery-minecraft.pl/konfiguracja-pluginu"));
                 return;
             }
 
             if (require_permission && !sender.hasPermission("smvotifier.nagroda")) {
-                sender.sendMessage(Utils.message("&8› &cBrak uprawnień."));
+                sender.sendMessage(Utils.message("§8› §cBrak uprawnień."));
                 return;
             }
 
@@ -36,7 +36,7 @@ public class Reward implements CommandExecutor {
 
                 if (diff < 60) {
                     long remaining = 60 - diff;
-                    sender.sendMessage(Utils.message("&8› &cSpróbuj ponownie za kilka sekund..."));
+                    sender.sendMessage(Utils.message("§8› §cSpróbuj ponownie za kilka sekund..."));
 
                     return;
                 }
@@ -63,11 +63,11 @@ public class Reward implements CommandExecutor {
         }
 
         if (res.containsKey("error")) {
-            sender.sendMessage("&8› &cNie udało się odebrać nagrody. Spróbuj ponownie później.");
+            sender.sendMessage("§8› §cNie udało się odebrać nagrody. Spróbuj ponownie później.");
         }
 
         if (!canClaimReward && !res.containsKey("error")) {
-            sender.sendMessage(Utils.message("&8› &cNie masz żadnej nagrody do odebrania."));
+            sender.sendMessage(Utils.message("§8› §cNie masz żadnej nagrody do odebrania."));
 
             return;
         }
