@@ -57,12 +57,17 @@ public class Reward implements CommandExecutor {
         }
 
         if (res.containsKey("error")) {
-            sender.sendMessage("§8› §cNie udało się odebrać nagrody. Spróbuj ponownie później.");
+            if (res.get("error").toString().equals("&cNie znaleziono glosu")) {
+                sender.sendMessage("§8› §cNie masz żadnej nagrody do odebrania.");
+            } else {
+                System.out.println("[DEBUG] Error when retrieving reward info for " + sender.getName() + ": " + res);
+                sender.sendMessage("§8› §cNie udało się odebrać nagrody. Spróbuj ponownie później.");
+            }
+            return;
         }
 
         if (!canClaimReward && !res.containsKey("error")) {
             sender.sendMessage(Utils.message("§8› §cNie masz żadnej nagrody do odebrania."));
-
             return;
         }
 
